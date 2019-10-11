@@ -1,10 +1,10 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/gate"
-	"github.com/chenwbyx/leafserver/server/conf"
 	"github.com/chenwbyx/leafserver/server/game"
 	"github.com/chenwbyx/leafserver/server/msg"
+	"github.com/chenwbyx/leafserver/server/pkg/setting"
+	"github.com/name5566/leaf/gate"
 )
 
 type Module struct {
@@ -13,16 +13,16 @@ type Module struct {
 
 func (m *Module) OnInit() {
 	m.Gate = &gate.Gate{
-		MaxConnNum:      conf.Server.MaxConnNum,
-		PendingWriteNum: conf.PendingWriteNum,
-		MaxMsgLen:       conf.MaxMsgLen,
-		WSAddr:          conf.Server.WSAddr,
-		HTTPTimeout:     conf.HTTPTimeout,
-		CertFile:        conf.Server.CertFile,
-		KeyFile:         conf.Server.KeyFile,
-		TCPAddr:         conf.Server.TCPAddr,
-		LenMsgLen:       conf.LenMsgLen,
-		LittleEndian:    conf.LittleEndian,
+		MaxConnNum:      setting.ServerSetting.MaxConnNum,
+		PendingWriteNum: setting.PendingWriteNum,
+		MaxMsgLen:       setting.MaxMsgLen,
+		WSAddr:          setting.ServerSetting.WSAddr,
+		HTTPTimeout:     setting.HTTPTimeout,
+		CertFile:        setting.ServerSetting.CertFile,
+		KeyFile:         setting.ServerSetting.KeyFile,
+		TCPAddr:         setting.ServerSetting.TCPAddr,
+		LenMsgLen:       setting.LenMsgLen,
+		LittleEndian:    setting.LittleEndian,
 		Processor:       msg.Processor,
 		AgentChanRPC:    game.ChanRPC,
 	}
