@@ -7,23 +7,27 @@ enum Result {
     LOGIN_SUCCESS = 2;
     LOGIN_FAIL = 3;
 }
+// 默认消息返回协议
+message DefaultReault {
+    Result RetResult = 1;
+    string ErrorInfo = 2;
+}
 // 用户登陆协议
 message UserLogin  {
     string LoginName = 1;      // 用户名
     string LoginPW   = 2;      // 密码
     message Result {
-        string token = 1;
+        DefaultReault defaultReault = 1;
+        string token = 2;
     }
 }
 // 注册协议
 message UserRegister {
     string LoginName = 1;      // 用户名
     string LoginPW   = 2;      // 密码
-}
-// 消息返回协议
-message UserResult {
-    Result RetResult = 1;
-    string ErrorInfo = 2;
+    message Result {
+        DefaultReault defaultReault = 1;
+    }
 }
 // 玩家有角色的情况
 message UserST {
@@ -33,4 +37,7 @@ message UserST {
     string RoleName = 4;      // 角色名字
     string RoleLev  = 5;      // 角色等级
     string Coin     = 6;      // 金币
+    message Result {
+        DefaultReault defaultReault = 1;
+    }
 }

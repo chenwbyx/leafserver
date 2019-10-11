@@ -43,9 +43,11 @@ func handleUserRegister(args []interface{}) {
 	}
 	if ok == true {
 		logging.LoginLogger.Debug("UserRegister find in fail" )
-		retBuf := &msg.UserResult{
-			RetResult: msg.Result_REGISTER_FAIL,
-			ErrorInfo:"账号已存在！",
+		retBuf := &msg.UserRegister_Result{
+			DefaultReault: &msg.DefaultReault{
+				RetResult: msg.Result_REGISTER_FAIL,
+				ErrorInfo:"账号已存在！",
+			},
 		}
 		a.WriteMsg(retBuf)
 	}
@@ -53,16 +55,21 @@ func handleUserRegister(args []interface{}) {
 	if err != nil {
 		fmt.Println(err)
 		logging.LoginLogger.Debug("UserRegister write in fail" )
-		retBuf := &msg.UserResult{
-			RetResult: msg.Result_REGISTER_FAIL,
-			ErrorInfo:"注册失败，请稍后再试！",
+		retBuf := &msg.UserRegister_Result{
+			DefaultReault: &msg.DefaultReault{
+				RetResult: msg.Result_REGISTER_FAIL,
+				ErrorInfo:"注册失败，请稍后再试！",
+			},
 		}
 		a.WriteMsg(retBuf)
 	} else{
 		logging.LoginLogger.Info("UserRegister write in success" )
-		retBuf := &msg.UserResult{
-			RetResult: msg.Result_REGISTER_SUCCESS,
+		retBuf := &msg.UserRegister_Result{
+			DefaultReault: &msg.DefaultReault{
+				RetResult: msg.Result_REGISTER_SUCCESS,
+			},
 		}
+
 		a.WriteMsg(retBuf)
 	}
 }
@@ -84,16 +91,21 @@ func handleUserLogin(args []interface{}) {
 		if err != nil {
 			//return
 		}
-		_ = token //处理token，目前协议不支持
-		retBuf := &msg.UserResult{
-			RetResult: msg.Result_LOGIN_SUCCESS,
-			ErrorInfo:"登录成功！",
+		retBuf := &msg.UserLogin_Result{
+			DefaultReault: &msg.DefaultReault{
+				RetResult: msg.Result_LOGIN_SUCCESS,
+				ErrorInfo:"登录成功！",
+			},
+			Token: token,
 		}
 		a.WriteMsg(retBuf)
 	}
-	retBuf := &msg.UserResult{
-		RetResult: msg.Result_LOGIN_SUCCESS,
-		ErrorInfo:"登陆失败，请稍后再试！",
+
+	retBuf := &msg.UserLogin_Result{
+		DefaultReault: &msg.DefaultReault{
+			RetResult: msg.Result_LOGIN_SUCCESS,
+			ErrorInfo:"登陆失败，请稍后再试！",
+		},
 	}
 	a.WriteMsg(retBuf)
 }
