@@ -18,7 +18,7 @@ message UserLogin  {
     string LoginPW   = 2;      // 密码
     message Result {
         DefaultReault defaultReault = 1;
-        string token = 2;
+        string token = 2;      // token
     }
 }
 // 注册协议
