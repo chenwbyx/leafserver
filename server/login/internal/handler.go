@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/chenwbyx/leafserver/server/models"
 	"github.com/chenwbyx/leafserver/server/msg"
+	"github.com/chenwbyx/leafserver/server/pkg/e"
 	"github.com/chenwbyx/leafserver/server/pkg/logging"
 	"github.com/chenwbyx/leafserver/server/pkg/util"
 	"github.com/name5566/leaf/gate"
@@ -45,8 +46,8 @@ func handleUserRegister(args []interface{}) {
 		logging.LoginLogger.Debug("UserRegister find in fail" )
 		retBuf := &msg.UserRegister_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_REGISTER_FAIL,
-				ErrorInfo:"账号已存在！",
+				RetResult: e.ACCOUNT_EXIST,
+				ErrorInfo: e.GetMsg(e.ACCOUNT_EXIST),
 			},
 		}
 		a.WriteMsg(retBuf)
@@ -57,8 +58,8 @@ func handleUserRegister(args []interface{}) {
 		logging.LoginLogger.Debug("UserRegister write in fail" )
 		retBuf := &msg.UserRegister_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_REGISTER_FAIL,
-				ErrorInfo:"注册失败，请稍后再试！",
+				RetResult: e.REGISTRE_FAIL,
+				ErrorInfo: e.GetMsg(e.REGISTRE_FAIL),
 			},
 		}
 		a.WriteMsg(retBuf)
@@ -66,7 +67,7 @@ func handleUserRegister(args []interface{}) {
 		logging.LoginLogger.Info("UserRegister write in success" )
 		retBuf := &msg.UserRegister_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_REGISTER_SUCCESS,
+				RetResult: e.REGISTRE_SUCCESS,
 			},
 		}
 
@@ -93,8 +94,8 @@ func handleUserLogin(args []interface{}) {
 		}
 		retBuf := &msg.UserLogin_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_LOGIN_SUCCESS,
-				ErrorInfo:"登录成功！",
+				RetResult: e.LOGIN_SUCCESS,
+				ErrorInfo: e.GetMsg(e.LOGIN_SUCCESS),
 			},
 			Token: token,
 		}
@@ -103,8 +104,8 @@ func handleUserLogin(args []interface{}) {
 
 	retBuf := &msg.UserLogin_Result{
 		DefaultReault: &msg.DefaultReault{
-			RetResult: msg.Result_LOGIN_SUCCESS,
-			ErrorInfo:"登陆失败，请稍后再试！",
+			RetResult: e.LOGIN_FAIL,
+			ErrorInfo: e.GetMsg(e.LOGIN_FAIL),
 		},
 	}
 	a.WriteMsg(retBuf)
