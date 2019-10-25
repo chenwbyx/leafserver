@@ -23,7 +23,7 @@ func GenerateToken(username, password string) (string, error) {
 		EncodeMD5(password),
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
-			Issuer:    "gin-blog",
+			Issuer:    "leafServer",
 		},
 	}
 
