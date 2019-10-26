@@ -1,13 +1,14 @@
 package internal
 
 import (
-	"fmt"
 	"github.com/chenwbyx/leafserver/server/models"
 	"github.com/chenwbyx/leafserver/server/msg"
+	"github.com/chenwbyx/leafserver/server/pkg/e"
 	"github.com/chenwbyx/leafserver/server/pkg/logging"
 	"github.com/chenwbyx/leafserver/server/pkg/util"
 	"github.com/name5566/leaf/gate"
 	"go.uber.org/zap"
+	"log"
 	"reflect"
 	"regexp"
 )
@@ -39,26 +40,26 @@ func handleUserRegister(args []interface{}) {
 	}
 	ok, err := models.GetLoginByName(name)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	if ok == true {
 		logging.LoginLogger.Debug("UserRegister find in fail" )
 		retBuf := &msg.UserRegister_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_REGISTER_FAIL,
-				ErrorInfo:"账号已存在！",
+				RetResult: e.ACCOUNT_EXIST,
+				ErrorInfo: e.GetMsg(e.ACCOUNT_EXIST),
 			},
 		}
 		a.WriteMsg(retBuf)
 	}
 	err = models.AddLogin(name,pwd)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		logging.LoginLogger.Debug("UserRegister write in fail" )
 		retBuf := &msg.UserRegister_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_REGISTER_FAIL,
-				ErrorInfo:"注册失败，请稍后再试！",
+				RetResult: e.REGISTRE_FAIL,
+				ErrorInfo: e.GetMsg(e.REGISTRE_FAIL),
 			},
 		}
 		a.WriteMsg(retBuf)
@@ -66,7 +67,7 @@ func handleUserRegister(args []interface{}) {
 		logging.LoginLogger.Info("UserRegister write in success" )
 		retBuf := &msg.UserRegister_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_REGISTER_SUCCESS,
+				RetResult: e.REGISTRE_SUCCESS,
 			},
 		}
 
@@ -83,7 +84,7 @@ func handleUserLogin(args []interface{}) {
 
 	ok, err := models.CheckLogin(name, pwd)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	if ok == true {
 		logging.LoginLogger.Info("UserLogin find in success" )
@@ -93,8 +94,8 @@ func handleUserLogin(args []interface{}) {
 		}
 		retBuf := &msg.UserLogin_Result{
 			DefaultReault: &msg.DefaultReault{
-				RetResult: msg.Result_LOGIN_SUCCESS,
-				ErrorInfo:"登录成功！",
+				RetResult: e.LOGIN_SUCCESS,
+				ErrorInfo: e.GetMsg(e.LOGIN_SUCCESS),
 			},
 			Token: token,
 		}
@@ -103,8 +104,8 @@ func handleUserLogin(args []interface{}) {
 
 	retBuf := &msg.UserLogin_Result{
 		DefaultReault: &msg.DefaultReault{
-			RetResult: msg.Result_LOGIN_SUCCESS,
-			ErrorInfo:"登陆失败，请稍后再试！",
+			RetResult: e.LOGIN_FAIL,
+			ErrorInfo: e.GetMsg(e.LOGIN_FAIL),
 		},
 	}
 	a.WriteMsg(retBuf)

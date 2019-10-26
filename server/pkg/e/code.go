@@ -1,0 +1,13 @@
+package e
+
+const (
+	SUCCESS        = 200
+	ERROR          = 500
+	INVALID_PARAMS = 400
+
+	ACCOUNT_EXIST     = 10001
+	REGISTRE_FAIL     = 10002
+	LOGIN_SUCCESS     = 10003
+	LOGIN_FAIL        = 10004
+	REGISTRE_SUCCESS  = 10005
+)

@@ -10,6 +10,5 @@ var Processor = protobuf.NewProcessor()
 func init() {
 	Processor.Register(&UserLogin{})
 	Processor.Register(&UserRegister{})
-	Processor.Register(&UserResult{})
 	Processor.Register(&UserST{})
 }

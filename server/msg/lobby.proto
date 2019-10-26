@@ -1,15 +1,9 @@
 syntax = "proto3";
 package msg;
 
-enum Result {
-    REGISTER_SUCCESS = 0;
-    REGISTER_FAIL = 1;
-    LOGIN_SUCCESS = 2;
-    LOGIN_FAIL = 3;
-}
 // 默认消息返回协议
 message DefaultReault {
-    Result RetResult = 1;
+    int32 RetResult = 1;
     string ErrorInfo = 2;
 }
 // 用户登陆协议
@@ -18,7 +12,7 @@ message UserLogin  {
     string LoginPW   = 2;      // 密码
     message Result {
         DefaultReault defaultReault = 1;
-        string token = 2;
+        string token = 2;      // token
     }
 }
 // 注册协议

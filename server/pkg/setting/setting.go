@@ -75,11 +75,11 @@ type Database struct {
 var DatabaseSetting = &Database{}
 
 type Redis struct {
-	Host        string
-	Password    string
-	MaxIdle     int
-	MaxActive   int
-	IdleTimeout time.Duration
+	Host     string
+	Password string
+	DB       int
+	Cluster  bool
+	Hosts    []string
 }
 
 var RedisSetting = &Redis{}
