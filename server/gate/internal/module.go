@@ -20,7 +20,7 @@ func (m *Module) OnInit() {
 		HTTPTimeout:     setting.HTTPTimeout,
 		CertFile:        setting.ServerSetting.CertFile,
 		KeyFile:         setting.ServerSetting.KeyFile,
-		TCPAddr:         setting.ServerSetting.TCPAddr,
+		TCPAddr:         setting.ServerSetting.TcpAddr,
 		LenMsgLen:       setting.LenMsgLen,
 		LittleEndian:    setting.LittleEndian,
 		Processor:       msg.Processor,

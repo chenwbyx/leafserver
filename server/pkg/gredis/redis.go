@@ -20,42 +20,43 @@ var client *redis.Client
 //redis集群客户端
 var redisClusterClient *redis.ClusterClient
 
-//redis配置结构体
-type Redis struct {
-	Host     string
-	Password string
-	DB       int
-	Cluster  bool
-	Hosts    []string
-}
 
-var RedisSetting = &Redis{}
 
 //redis设置
-func Setup() {
+func Setup() bool {
 
 	//判断是否为集群配置
 	if setting.RedisSetting.Cluster {
 		//ClusterClient是一个Redis集群客户机，表示一个由0个或多个底层连接组成的池。它对于多个goroutine的并发使用是安全的。
 		redisClusterClient = redis.NewClusterClient(&redis.ClusterOptions{
-			Password: RedisSetting.Password,
-			Addrs:    RedisSetting.Hosts,
+			Password: setting.RedisSetting.Password,
+			Addrs:    setting.RedisSetting.Hosts,
 		})
 		//Ping
 		ping, err := redisClusterClient.Ping().Result()
-		logging.AppLogger.Info("Redis cluster Ping", zap.String("ping", ping), zap.Error(err))
+		if err != nil {
+			logging.AppLogger.Error("Redis Ping", zap.String("Addr", setting.RedisSetting.Host), zap.Error(err))
+			return false
+		}
+		logging.AppLogger.Info("redis ping result", zap.String("Addr", setting.RedisSetting.Host), zap.String("result", ping))
+		return true
 
 	} else {
 		//Redis客户端，由零个或多个基础连接组成的池。它对于多个goroutine的并发使用是安全的。
 		//更多参数参考Options结构体
 		client = redis.NewClient(&redis.Options{
-			Addr:     RedisSetting.Host,
-			Password: RedisSetting.Password, // no password set
-			DB:       RedisSetting.DB,       // use default DB
+			Addr:     setting.RedisSetting.Host,
+			Password: setting.RedisSetting.Password, // no password set
+			DB:       setting.RedisSetting.DB,       // use default DB
 		})
 		//Ping
 		ping, err := client.Ping().Result()
-		logging.AppLogger.Info("Redis Ping", zap.String("ping", ping), zap.Error(err))
+		if err != nil {
+			logging.AppLogger.Error("Redis Ping", zap.String("Addr", setting.RedisSetting.Host), zap.Error(err))
+			return false
+		}
+		logging.AppLogger.Info("redis ping result", zap.String("Addr", setting.RedisSetting.Host), zap.String("result", ping))
+		return true
 	}
 
 }

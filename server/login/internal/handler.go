@@ -44,31 +44,27 @@ func handleUserRegister(args []interface{}) {
 	}
 	if ok == true {
 		logging.LoginLogger.Debug("UserRegister find in fail" )
-		retBuf := &msg.UserRegister_Result{
-			DefaultReault: &msg.DefaultReault{
-				RetResult: e.ACCOUNT_EXIST,
-				ErrorInfo: e.GetMsg(e.ACCOUNT_EXIST),
-			},
+
+		retBuf := &msg.DefaultReault{
+			RetResult: e.ACCOUNT_EXIST,
+			ErrorInfo: e.GetMsg(e.ACCOUNT_EXIST),
 		}
+
 		a.WriteMsg(retBuf)
 	}
 	err = models.AddLogin(name,pwd)
 	if err != nil {
 		log.Println(err)
 		logging.LoginLogger.Debug("UserRegister write in fail" )
-		retBuf := &msg.UserRegister_Result{
-			DefaultReault: &msg.DefaultReault{
-				RetResult: e.REGISTRE_FAIL,
-				ErrorInfo: e.GetMsg(e.REGISTRE_FAIL),
-			},
+		retBuf := &msg.DefaultReault{
+			RetResult: e.REGISTRE_FAIL,
+			ErrorInfo: e.GetMsg(e.REGISTRE_FAIL),
 		}
 		a.WriteMsg(retBuf)
 	} else{
 		logging.LoginLogger.Info("UserRegister write in success" )
-		retBuf := &msg.UserRegister_Result{
-			DefaultReault: &msg.DefaultReault{
-				RetResult: e.REGISTRE_SUCCESS,
-			},
+		retBuf := &msg.DefaultReault{
+			RetResult: e.REGISTRE_SUCCESS,
 		}
 
 		a.WriteMsg(retBuf)
@@ -87,26 +83,21 @@ func handleUserLogin(args []interface{}) {
 		log.Println(err)
 	}
 	if ok == true {
-		logging.LoginLogger.Info("UserLogin find in success" )
 		token, err := util.GenerateToken(name, pwd)
 		if err != nil {
 			//return
 		}
-		retBuf := &msg.UserLogin_Result{
-			DefaultReault: &msg.DefaultReault{
-				RetResult: e.LOGIN_SUCCESS,
-				ErrorInfo: e.GetMsg(e.LOGIN_SUCCESS),
-			},
-			Token: token,
+		logging.LoginLogger.Info("UserLogin find in success", zap.String("token", token))
+		retBuf := &msg.DefaultReault{
+			RetResult: e.LOGIN_SUCCESS,
+			ErrorInfo: e.GetMsg(e.LOGIN_SUCCESS),
 		}
 		a.WriteMsg(retBuf)
 	}
 
-	retBuf := &msg.UserLogin_Result{
-		DefaultReault: &msg.DefaultReault{
-			RetResult: e.LOGIN_FAIL,
-			ErrorInfo: e.GetMsg(e.LOGIN_FAIL),
-		},
+	retBuf := &msg.DefaultReault{
+		RetResult: e.LOGIN_FAIL,
+		ErrorInfo: e.GetMsg(e.LOGIN_FAIL),
 	}
 	a.WriteMsg(retBuf)
 }

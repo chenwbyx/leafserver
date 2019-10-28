@@ -10,18 +10,11 @@ message DefaultReault {
 message UserLogin  {
     string LoginName = 1;      // 用户名
     string LoginPW   = 2;      // 密码
-    message Result {
-        DefaultReault defaultReault = 1;
-        string token = 2;      // token
-    }
 }
 // 注册协议
 message UserRegister {
     string LoginName = 1;      // 用户名
     string LoginPW   = 2;      // 密码
-    message Result {
-        DefaultReault defaultReault = 1;
-    }
 }
 // 玩家有角色的情况
 message UserST {
@@ -31,7 +24,4 @@ message UserST {
     string RoleName = 4;      // 角色名字
     string RoleLev  = 5;      // 角色等级
     string Coin     = 6;      // 金币
-    message Result {
-        DefaultReault defaultReault = 1;
-    }
 }

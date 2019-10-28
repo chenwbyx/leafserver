@@ -11,4 +11,5 @@ func init() {
 	Processor.Register(&UserLogin{})
 	Processor.Register(&UserRegister{})
 	Processor.Register(&UserST{})
+	Processor.Register(&DefaultReault{})
 }

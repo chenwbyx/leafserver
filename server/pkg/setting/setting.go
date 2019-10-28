@@ -38,7 +38,7 @@ var AppSetting = &App{}
 type Server struct {
 	LogLevel     string
 	HttpPort     int
-	TcpAddr      int
+	TcpAddr      string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	MaxConnNum   int
@@ -48,7 +48,6 @@ type Server struct {
 	WSAddr      string
 	CertFile    string
 	KeyFile     string
-	TCPAddr     string
 }
 
 var ServerSetting = &Server{}
@@ -103,7 +102,6 @@ func Setup() {
 	AppSetting.LogFlag = log.LstdFlags
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
 	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
-	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second
 }
 
 // mapTo map section

@@ -3,9 +3,10 @@ package models
 import "github.com/jinzhu/gorm"
 
 type Login struct {
-	ID       int    `gorm:"primary_key" json:"id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Model
+
+	Username string `gorm:"type:varchar(20);not null;index:name_idx"`
+	Password string `gorm:"type:varchar(256);not null;"`
 }
 
 // CheckAuth checks if authentication information exists

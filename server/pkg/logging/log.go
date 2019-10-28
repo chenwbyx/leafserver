@@ -23,10 +23,10 @@ const (
 //定制日志
 func Setup() {
 	//定制日志
-	AppLogger = NewLogger(setting.LogSetting.App, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE, true, setting.LogSetting.ServiceName)
-	HTTPLogger = NewLogger(setting.LogSetting.Http, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE,true, setting.LogSetting.ServiceName)
-	DefaultLogger = NewLogger(setting.LogSetting.Default, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE,true, setting.LogSetting.ServiceName)
-	LoginLogger = NewLogger(setting.LogSetting.Login, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE,true, setting.LogSetting.ServiceName)
+	AppLogger = NewLogger(getLogFilePath() + setting.LogSetting.App, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE, true, setting.LogSetting.ServiceName)
+	HTTPLogger = NewLogger(getLogFilePath() + setting.LogSetting.Http, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE,true, setting.LogSetting.ServiceName)
+	DefaultLogger = NewLogger(getLogFilePath() + setting.LogSetting.Default, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE,true, setting.LogSetting.ServiceName)
+	LoginLogger = NewLogger(getLogFilePath() + setting.LogSetting.Login, zapcore.InfoLevel, MAXSIZE, MAXBACKUPS, MAXAGE,true, setting.LogSetting.ServiceName)
 }
 
 func getLogFilePath() string {

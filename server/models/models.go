@@ -4,17 +4,19 @@ import (
 	"fmt"
 	"github.com/chenwbyx/leafserver/server/pkg/setting"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
+	"os"
 	"time"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	ID         int `gorm:"primary_key" json:"id"`
-	CreatedOn  int `json:"created_on"`
-	ModifiedOn int `json:"modified_on"`
-	DeletedOn  int `json:"deleted_on"`
+	ID         int `gorm:"primary_key"`
+	CreatedOn  int `gorm:"type:int"`
+	ModifiedOn int `gorm:"type:int"`
+	DeletedOn  int `gorm:"type:int"`
 }
 
 // Setup initializes the database instance
@@ -34,6 +36,9 @@ func Setup() {
 		return setting.DatabaseSetting.TablePrefix + defaultTableName
 	}
 
+	db.LogMode(true)
+	//db.SetLogger(gorm.Logger{ revel.TRACE})
+	db.SetLogger(log.New(os.Stdout, "\r", 0))
 	db.SingularTable(true)
 	db.Callback().Create().Replace("gorm:update_time_stamp", updateTimeStampForCreateCallback)
 	db.Callback().Update().Replace("gorm:update_time_stamp", updateTimeStampForUpdateCallback)
